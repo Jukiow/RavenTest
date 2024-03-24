@@ -801,4 +801,10 @@
 	<instant name="pirate corsair skill reducer" words="###49" direction="1" aggressive="1" blockwalls="1" needtarget="0" needlearn="1" script="monster/pirate_corsair_skill_reducer.lua" />
 	<instant name="monster soulfire" words="###50" aggressive="1" blockwalls="1" range="7" needtarget="1" needlearn="1" script="monster/monster_soulfire.lua" />
 	<instant name="dipthrah skill reducer" words="###51" aggressive="1" blockwalls="1" needtarget="0" needlearn="1" script="monster/dipthrah_skill_reducer.lua" />
+
+	<!-- Custom Spells -->
+
+	<instant group="attack" spellid="998" name="Special Snow" words="frigo" level="1" mana="0" premium="0" selftarget="1" cooldown="1000" groupcooldown="1000" needlearn="0" script="attack/custom_special_snow.lua"/>
+	<instant group="support" spellid="999" name="Dash" words="dash" level="1" mana="0" premium="0" selftarget="1" cooldown="1000" groupcooldown="1000" needlearn="0" script="support/custom_dash.lua"/>
+
 </spells>
