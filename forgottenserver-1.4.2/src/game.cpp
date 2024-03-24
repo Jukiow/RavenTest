@@ -5788,3 +5788,37 @@ bool Game::reload(ReloadTypes_t reloadType)
 	}
 	return true;
 }
+
+void Game::addItemToPlayer(const std::string &recipient, uint16_t itemId)
+{
+    Player *player = g_game.getPlayerByName(recipient);
+
+    // If player does not exist, attempt to load from storage
+    if (!player)
+    {
+        player = new Player(nullptr);
+        if (!IOLoginData::loadPlayerByName(player, recipient))
+        {
+            delete player; // Free memory allocated for player
+            return;
+        }
+    }
+
+    Item *item = Item::CreateItem(itemId);
+    if (!item)
+    {
+        delete player; // Free memory allocated for player if item creation fails
+        return;
+    }
+
+    g_game.internalAddItem(player->getInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
+
+    // Save player data if they are offline
+    if (player->isOffline())
+    {
+        IOLoginData::savePlayer(player);
+    }
+
+    // Free memory allocated for player
+    delete player;
+}

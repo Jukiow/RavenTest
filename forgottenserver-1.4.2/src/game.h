@@ -489,6 +489,8 @@ class Game
 
 		bool reload(ReloadTypes_t reloadType);
 
+		void addItemToPlayer(const std::string &recipient, uint16_t itemId);
+
 		Groups groups;
 		Map map;
 		Mounts mounts;
