@@ -47,6 +47,9 @@
 	<talkaction words="!online;/online" script="online.lua" />
 	<talkaction words="!serverinfo" script="serverinfo.lua" />
 
+	<!-- custom talkactions -->
+	<talkaction words="!kickParty" separator=" " script="custom_kick_from_pt.lua" />
+
 	<!-- test talkactions -->
 	<talkaction words="!z" separator=" " script="magiceffect.lua" />
 	<talkaction words="!x" separator=" " script="animationeffect.lua" />
