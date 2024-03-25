@@ -50,10 +50,75 @@ function updateMount()
   mountCreature:setOutfit(mount)
 end
 
+function moveButton()
+  -- Get the button widget
+  local jumpButton = outfitWindow:getChildById('ravenTrialJumpButton')
+
+  -- Get the parent container position
+  local containerPosition = outfitWindow:getPosition()
+
+  -- Get the button position relative to the entire game window
+  local buttonPosition = jumpButton:getPosition()
+
+  -- Calculate the button's position relative to the container
+  local relativeX = buttonPosition.x - containerPosition.x
+  local relativeY = buttonPosition.y - containerPosition.y
+
+  -- Get the size of the parent container
+  local containerSize = outfitWindow:getSize()
+
+  -- Get the size of the button
+  local buttonSize = jumpButton:getSize()
+
+  -- Define the padding values for the header and edges
+  local headerPadding = 35
+  local edgePadding = 10
+
+  -- Calculate the maximum allowed coordinates for the button
+  local maxX = containerSize.width - buttonSize.width - edgePadding
+  local maxY = containerSize.height - buttonSize.height - headerPadding
+
+  -- Calculate the new X position
+  local newX = relativeX + 10  -- Move right by 10 pixels
+
+  -- If the new X position exceeds the maximum X or goes beyond the right edge, reset it to 0
+  if newX >= maxX or newX < 0 then
+    newX = 0
+  end
+
+  -- If the new X position is 0, move the button down by 10 pixels
+  local newY = relativeY
+  if newX == 0 then
+    newY = relativeY + 10
+  end
+
+  -- If the new Y position exceeds the maximum Y or goes beyond the bottom edge, reset it to headerPadding
+  if newY >= maxY or newY < 0 then
+    newY = headerPadding
+  end
+
+  -- Calculate the new absolute position of the button within the game window
+  local absoluteX = newX + containerPosition.x
+  local absoluteY = newY + containerPosition.y
+
+  -- Set the new position of the button
+  jumpButton:setPosition({x = absoluteX, y = absoluteY})
+
+  -- Call the moveButton function again after a short delay
+  scheduleEvent(moveButton, 65)  -- Adjust the delay as needed
+end
+
 function create(creatureOutfit, outfitList, creatureMount, mountList)
   if outfitWindow and not outfitWindow:isHidden() then
     return
   end
+
+  local moveInterval = 1
+
+  -- Schedule the moveButton function to be called repeatedly
+  local moveEvent = scheduleEvent(function()
+    moveButton()
+  end, moveInterval)
 
   outfitCreature = creatureOutfit
   mountCreature = creatureMount
@@ -315,5 +380,45 @@ function updateOutfit()
 
   outfit.type = outfits[currentOutfit][1]
   outfitCreature:setOutfit(outfit)
+end
+
+function jump()
+  -- Get the button widget
+  local jumpButton = outfitWindow:getChildById('ravenTrialJumpButton')
+
+  -- Get the parent container position
+  local containerPosition = outfitWindow:getPosition()
+
+  -- Get the button position relative to the entire game window
+  local buttonPosition = jumpButton:getPosition()
+
+  -- Calculate the button's position relative to the container
+  local relativeX = buttonPosition.x - containerPosition.x
+  local relativeY = buttonPosition.y - containerPosition.y
+
+  -- Get the size of the parent container
+  local containerSize = outfitWindow:getSize()
+
+  -- Get the size of the button
+  local buttonSize = jumpButton:getSize()
+
+  -- Define the padding values for the header and edges
+  local headerPadding = 35
+  local edgePadding = 10
+
+  -- Calculate the maximum allowed coordinates for the button
+  local maxX = containerSize.width - buttonSize.width - edgePadding
+  local maxY = containerSize.height - buttonSize.height - headerPadding
+
+  -- Generate random X and Y coordinates within the parent container's bounds
+  local newX = math.random(edgePadding, maxX)
+  local newY = math.random(headerPadding, maxY)
+
+  -- Calculate the new absolute position of the button within the game window
+  local absoluteX = newX + containerPosition.x
+  local absoluteY = newY + containerPosition.y
+
+  -- Set the new position of the button
+  jumpButton:setPosition({x = absoluteX, y = absoluteY})
 end
 
